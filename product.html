@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - VulnShop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .product-detail {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .product-detail h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .product-detail .price {
+            font-size: 1.5rem;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .reviews-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+        }
+        
+        .add-review {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+        
+        .add-review textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+        
+        .review:last-child {
+            border-bottom: none;
+        }
+        
+        .review strong {
+            color: #2c3e50;
+        }
+        
+        .review small {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .safe {
+            border: 2px solid #4caf50;
+            background: #f8fff8;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="product-detail">
+            <h1 id="productName">Loading product...</h1>
+            <p id="productDescription">Loading description...</p>
+            <p class="price" id="productPrice">$0.00</p>
+            <button class="btn btn-primary" onclick="addToCart(currentProductId)">Add to Cart</button>
+            <a href="shop.html" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+
+        <section class="reviews-section">
+            <h2>Product Reviews</h2>
+            
+            <div class="add-review">
+                <h3>Add Your Review</h3>
+                <form id="reviewForm">
+                    <textarea id="reviewText" placeholder="Write your review here..." rows="4" required></textarea>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+                <p><small><strong>Note:</strong> Reviews are stored in localStorage and vulnerable to Stored XSS.</small></p>
+            </div>
+
+            <h3>Reviews (Vulnerable Rendering):</h3>
+            <div id="reviewsList">
+                <p>No reviews yet. Be the first to review!</p>
+            </div>
+
+            <h3>Reviews (Safe Rendering):</h3>
+            <div id="safeReviewsList" class="safe">
+                <p>No reviews yet. Be the first to review!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/xss_modules.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        let currentProductId = 1;
+        
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        if (productId) {
+            currentProductId = parseInt(productId);
+        }
+
+        // Load product details
+        window.addEventListener('DOMContentLoaded', async function() {
+            await loadProductDetails(currentProductId);
+            loadReviews(currentProductId);
+        });
+
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const reviewText = document.getElementById('reviewText').value;
+            if (!reviewText.trim()) return;
+            
+            addReview(currentProductId, reviewText);
+            document.getElementById('reviewText').value = '';
+            loadReviews(currentProductId);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Reset all lab data?')) {
+                window.resetLabData();
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

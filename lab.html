@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Lab - VulnShop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .lab-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .warning-banner {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 6px solid #c92a2a;
+        }
+        
+        .module-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .vulnerability-tag {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .safe-tag {
+            background: #51cf66;
+        }
+        
+        .deliverable-section {
+            background: #e7f5ff;
+            border: 1px solid #339af0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link active">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="lab-container">
+        <div class="warning-banner">
+            <h2>⚠️ AUTHORIZED SECURITY LAB ONLY</h2>
+            <p>This website contains intentional vulnerabilities for educational purposes.</p>
+            <p><strong>DO NOT:</strong> Use real personal data, attempt to exploit outside this lab, or share exploit techniques publicly.</p>
+        </div>
+
+        <h1>Web Application Security Lab</h1>
+        
+        <section class="module-card">
+            <h2>📋 Lab Overview</h2>
+            <p>This lab demonstrates common web application vulnerabilities in a controlled environment. Your task is to identify, test, and fix these vulnerabilities.</p>
+            
+            <h3>Learning Objectives:</h3>
+            <ul>
+                <li>Identify XSS vulnerabilities (Reflected, Stored, DOM-based)</li>
+                <li>Understand SQL injection concepts through simulation</li>
+                <li>Recognize business logic flaws</li>
+                <li>Implement security fixes</li>
+                <li>Create vulnerability reports</li>
+            </ul>
+        </section>
+
+        <section class="module-card">
+            <h2>🔍 Phase 1: Reconnaissance & Mapping</h2>
+            <p><strong>Objective:</strong> Map all input sources and output sinks in the application.</p>
+            
+            <h3>Tasks:</h3>
+            <ol>
+                <li>Explore all pages of the application</li>
+                <li>Identify all user input fields</li>
+                <li>Map where inputs are stored (localStorage, in-memory DB)</li>
+                <li>Identify where inputs are rendered/output (DOM sinks)</li>
+                <li>Document data flow from source to sink</li>
+            </ol>
+            
+            <div class="deliverable-section">
+                <h4>Deliverable: Source-to-Sink Map</h4>
+                <p>Create a table documenting:</p>
+                <ul>
+                    <li>Input source (URL, form field, etc.)</li>
+                    <li>Storage location</li>
+                    <li>Output sink</li>
+                    <li>Vulnerability type</li>
+                </ul>
+                <a href="instructions/source_sink_map_template.md" class="btn btn-primary">Download Template</a>
+            </div>
+        </section>
+
+        <section class="module-card">
+            <h2>🧪 Phase 2: Testing & Documentation</h2>
+            
+            <div class="vulnerability-section">
+                <h3><span class="vulnerability-tag">XSS</span> Cross-Site Scripting</h3>
+                
+                <h4>Reflected XSS</h4>
+                <p><strong>Location:</strong> shop.html search results</p>
+                <p><strong>Test:</strong> Enter HTML/script in search field and observe rendering</p>
+                
+                <h4>Stored XSS</h4>
+                <p><strong>Locations:</strong></p>
+                <ul>
+                    <li>forum.html posts</li>
+                    <li>product.html reviews</li>
+                </ul>
+                
+                <h4>DOM-based XSS</h4>
+                <p><strong>Location:</strong> Check page hash routing</p>
+                <p><strong>Test:</strong> Manipulate URL hash parameters</p>
+            </div>
+            
+            <div class="vulnerability-section">
+                <h3><span class="vulnerability-tag">SQLi</span> SQL Injection Simulation</h3>
+                <p><strong>Locations:</strong></p>
+                <ul>
+                    <li>orders.html order search</li>
+                    <li>support.html ticket search</li>
+                </ul>
+                <p><strong>Note:</strong> This is a simulation using sql.js (SQLite in WASM)</p>
+            </div>
+            
+            <div class="deliverable-section">
+                <h4>Deliverable: Vulnerability Reports</h4>
+                <p>For each vulnerability type, document:</p>
+                <ul>
+                    <li>Proof of concept</li>
+                    <li>Impact assessment</li>
+                    <li>Root cause analysis</li>
+                </ul>
+                <a href="instructions/report_template.md" class="btn btn-primary">Download Template</a>
+            </div>
+        </section>
+
+        <section class="module-card">
+            <h2>🔧 Phase 3: Fix Implementation</h2>
+            
+            <h3>XSS Fixes:</h3>
+            <div class="code-block">
+// VULNERABLE
+element.innerHTML = userInput;
+
+// SAFE
+element.textContent = userInput;
+// OR
+element.innerHTML = encodeHTML(userInput);
+            </div>
+            
+            <h3>SQL Injection Fixes:</h3>
+            <div class="code-block">
+// VULNERABLE
+const query = `SELECT * FROM orders WHERE id = '${userInput}'`;
+
+// SAFE
+const query = db.prepare('SELECT * FROM orders WHERE id = ?');
+query.bind([userInput]);
+            </div>
+            
+            <div class="deliverable-section">
+                <h4>Deliverable: Fix Implementation</h4>
+                <ol>
+                    <li>Fork the repository</li>
+                    <li>Implement security fixes</li>
+                    <li>Create a pull request with your changes</li>
+                    <li>Include explanation of fixes</li>
+                </ol>
+                <a href="CONTRIBUTING.md" class="btn btn-primary">Contribution Guide</a>
+            </div>
+        </section>
+
+        <section class="module-card">
+            <h2>📊 Grading Rubric</h2>
+            
+            <h3>Pass Criteria:</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background: #f8f9fa;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Criteria</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Requirements</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Correct Classification</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Properly identify vulnerability types</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Root Cause Analysis</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Identify unsafe sinks/concatenation</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Effective Fix</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Implement proper security controls</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Documentation</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Complete all report templates</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script>
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Reset all lab data?')) {
+                window.resetLabData();
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

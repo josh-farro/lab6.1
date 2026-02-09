@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - VulnShop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Customer Support</h1>
+        
+        <section class="new-ticket">
+            <h2>Submit Support Ticket</h2>
+            <form id="ticketForm">
+                <input type="text" id="ticketSubject" placeholder="Subject" required>
+                <textarea id="ticketBody" placeholder="Describe your issue..." rows="6" required></textarea>
+                <button type="submit" class="btn btn-primary">Submit Ticket</button>
+            </form>
+        </section>
+
+        <section class="ticket-search">
+            <h2>Search Tickets</h2>
+            <div class="vulnerability-note">
+                <p><strong>SQL Injection Simulation:</strong> Ticket search uses vulnerable query construction.</p>
+            </div>
+            
+            <form id="ticketSearchForm">
+                <input type="text" id="ticketSearch" placeholder="Search ticket content...">
+                <button type="submit" class="btn btn-primary">Search Tickets</button>
+            </form>
+            
+            <div id="ticketSearchResults">
+                <!-- Ticket results loaded here -->
+            </div>
+
+            <h3>Safe Search</h3>
+            <form id="safeTicketSearchForm">
+                <input type="text" id="safeTicketSearch" placeholder="Search ticket content...">
+                <button type="submit" class="btn btn-primary">Search Safely</button>
+            </form>
+            
+            <div id="safeTicketSearchResults">
+                <!-- Safe ticket results loaded here -->
+            </div>
+        </section>
+
+        <section class="tickets-list">
+            <h2>Your Tickets</h2>
+            <div id="ticketsList">
+                <!-- Tickets loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/sql_sim.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        loadUserTickets();
+
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subject = document.getElementById('ticketSubject').value;
+            const body = document.getElementById('ticketBody').value;
+            createSupportTicket(subject, body);
+            document.getElementById('ticketSubject').value = '';
+            document.getElementById('ticketBody').value = '';
+            loadUserTickets();
+        });
+
+        // Vulnerable ticket search
+        document.getElementById('ticketSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('ticketSearch').value;
+            const results = await searchTicketsVulnerable(searchTerm);
+            displayTicketResults(results, 'ticketSearchResults');
+        });
+
+        // Safe ticket search
+        document.getElementById('safeTicketSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('safeTicketSearch').value;
+            const results = await searchTicketsSafe(searchTerm);
+            displayTicketResults(results, 'safeTicketSearchResults');
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Reset all lab data?')) {
+                window.resetLabData();
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

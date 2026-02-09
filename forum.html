@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - VulnShop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Community Forum</h1>
+        
+        <div class="vulnerability-note">
+            <p><strong>Stored XSS Vulnerability:</strong> Forum posts are rendered unsafely. Try posting HTML/script content.</p>
+        </div>
+
+        <section class="new-thread">
+            <h2>Start New Thread</h2>
+            <form id="newThreadForm">
+                <input type="text" id="threadTitle" placeholder="Thread title" required>
+                <textarea id="threadContent" placeholder="Your message..." rows="4" required></textarea>
+                <button type="submit" class="btn btn-primary">Create Thread</button>
+            </form>
+        </section>
+
+        <section class="threads-list">
+            <h2>Recent Threads</h2>
+            <div id="threadsList">
+                <!-- Threads loaded here (VULNERABLE) -->
+            </div>
+
+            <div id="safeThreadsList" class="safe">
+                <!-- Threads loaded here (SAFE) -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/xss_modules.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        loadForumThreads();
+
+        document.getElementById('newThreadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('threadTitle').value;
+            const content = document.getElementById('threadContent').value;
+            createThread(title, content);
+            document.getElementById('threadTitle').value = '';
+            document.getElementById('threadContent').value = '';
+            loadForumThreads();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Reset all lab data?')) {
+                window.resetLabData();
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

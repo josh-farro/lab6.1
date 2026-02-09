@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - VulnShop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Your Orders</h1>
+        
+        <section class="search-section">
+            <h2>Search Orders</h2>
+            <div class="vulnerability-note">
+                <p><strong>SQL Injection Simulation:</strong> This search uses string concatenation for SQL queries.</p>
+            </div>
+            
+            <form id="orderSearchForm">
+                <input type="text" id="orderSearch" placeholder="Search order ID or details...">
+                <button type="submit" class="btn btn-primary">Search Orders</button>
+            </form>
+            
+            <div id="orderSearchResults">
+                <!-- Order results loaded here -->
+            </div>
+
+            <h3>Safe Search (Using Parameterized Queries)</h3>
+            <form id="safeOrderSearchForm">
+                <input type="text" id="safeOrderSearch" placeholder="Search order ID or details...">
+                <button type="submit" class="btn btn-primary">Search Safely</button>
+            </form>
+            
+            <div id="safeOrderSearchResults">
+                <!-- Safe order results loaded here -->
+            </div>
+        </section>
+
+        <section class="orders-list">
+            <h2>Recent Orders</h2>
+            <div id="ordersList">
+                <!-- Orders loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/sql_sim.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Load recent orders
+        loadRecentOrders();
+
+        // Vulnerable order search
+        document.getElementById('orderSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('orderSearch').value;
+            const results = await searchOrdersVulnerable(searchTerm);
+            displaySearchResults(results, 'orderSearchResults');
+        });
+
+        // Safe order search
+        document.getElementById('safeOrderSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('safeOrderSearch').value;
+            const results = await searchOrdersSafe(searchTerm);
+            displaySearchResults(results, 'safeOrderSearchResults');
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Reset all lab data?')) {
+                window.resetLabData();
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

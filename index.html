@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnShop - Security Lab</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VulnShop</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="lab.html" class="lab-link">Lab</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>Welcome to VulnShop</h1>
+            <p>An intentionally vulnerable e-commerce platform for security education</p>
+            <div class="warning-banner">
+                <strong>⚠️ SECURITY LAB WARNING:</strong> This site contains intentional vulnerabilities for educational purposes only.
+            </div>
+            <div class="cta-buttons">
+                <a href="shop.html" class="btn btn-primary">Start Shopping</a>
+                <a href="lab.html" class="btn btn-secondary">Go to Lab</a>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>🛍️ Shop Products</h3>
+                <p>Browse products with search and filtering</p>
+            </div>
+            <div class="feature-card">
+                <h3>📝 Submit Reviews</h3>
+                <p>Review products and see others' reviews</p>
+            </div>
+            <div class="feature-card">
+                <h3>💬 Forum</h3>
+                <p>Discuss with other users</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔍 Search Orders</h3>
+                <p>Search your order history</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>VulnShop - Security Education Lab</p>
+            <button id="resetBtn" class="btn btn-warning">Reset Lab Data</button>
+        </div>
+    </footer>
+
+    <script src="assets/js/core.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('This will clear all cart, orders, tickets, and forum posts. Continue?')) {
+                window.resetLabData();
+                alert('Lab data has been reset. Page will reload.');
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
